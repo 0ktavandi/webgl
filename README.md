@@ -11,4 +11,4 @@
 
 
 ### Github Repository
-[https://github.com/0ktavandi/webgl](click here)
+[GitHub](http://github.com/0ktavandi/webgl)
