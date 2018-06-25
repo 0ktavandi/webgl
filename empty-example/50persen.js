@@ -34,6 +34,7 @@ function draw() {
 
 
 }
+
 function Star() 
  {
  	this.x = random(-width,width);
