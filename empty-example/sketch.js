@@ -1,60 +1,105 @@
 var angle=0;
 var obj;
 let stars = [];
-
-function preload() {
+var speed;
+let cam;
+let camX= 0.0;
+let camY= 0.0;
+ 
+ 
+function preload() {   
   obj = loadModel('rocket.obj');
+ 
 }
-
+ 
 function setup() {
-  createCanvas(1000, 600, WEBGL);
-  for (var i = 0; i < 800; i++) {
-		stars[i] = new Star();		
-	}
+  createCanvas(800, 600, WEBGL);
+ colorMode(HSB);
+     
+ 
+  for (var i = 0; i < 500; i++) {
+        stars[i] = new Star();     
+    }  
 }
-
+ 
 function draw() {
   background(0);
   scale(0.3);
-	push();
+  ambientMaterial(250);
+  push();
+ 
+     camera(camX,camY,(height/2)/tan(PI/6), 0, 0, 0, 0, 1, 0);
+ 
+push();
+ 
+ 
     translate(width/2,height/2);
-	for (var i = 0; i < 800; i++) {	
-		stars[i].update();
-		stars[i].show();
-
-	}
-	pop();
-	push();
-	translate(mouseX,mouseY);
+    for (var i = 0; i < 500; i++) {
+        stars[i].update();
+        stars[i].show();
+ 
+    }
+pop();
+push();
+normalMaterial();
+  translate(mouseX,mouseY);
   rotateX(70);
   rotateZ(10);
   rotateY(angle);
   model(obj);
-  angle+=0.01;
-
-
+  angle+=0.03;
+   
+   
+ 
 }
-function Star() 
+ 
+function Star()
  {
- 	this.x = random(-width,width);
- 	this.y = random(-height,height);
- 	this.z = random(width);
-
- 	this.update = function (){
- 		this.z = this.z-7;
- 		if (this.z < 1){
- 			this.z = width;
- 			this.x = random(-width,width);
-		 	this.y = random(-height,height);
- 	
- 		}
- 	}
-
- 	this.show = function(){
- 		fill(255);
- 		noStroke();
- 		this.sx = map(this.x/this.z,0,1,0,width);
- 		this.sy = map(this.y/this.z,0,1,0,height)
- 		ellipse(this.sx,this.sy,8,8);
- 	};
+    this.x = random(-width,width);
+    this.y = random(-height,height);
+    this.z = random(width);
+    this.hu = random(255);
+ 
+    this.pz = this.z;
+ 
+    this.update = function (){
+        this.z = this.z-7;
+        if (this.z < 1){
+            this.z = width;
+            this.x = random(-width,width);
+            this.y = random(-height,height);
+   
+        }
+    }
+ 
+    this.show = function(){
+        strokeWeight(2);
+        stroke(this.hu,255,255,255);
+        this.sx = map(this.x/this.z,0,1,0,width);
+        this.sy = map(this.y/this.z,0,1,0,height)
+        this.r = map(this.z,0,width,16,0);
+        ellipse(this.sx,this.sy,this.r,this.r);
+        /*
+        this.px = map(this.x/this.pz,0,1,0,width);
+        this.py = map(this.y/this.pz,0,1,0,height);
+       
+        line(this.px,this.py,this.sx,this.sy);
+        */
+    }
  }
+function keyPressed() {
+  switch (keyCode) {
+   case UP_ARROW :
+   camY = 200;
+   break;
+   case DOWN_ARROW :
+   camY = -200;
+   break;
+   case LEFT_ARROW :
+   camX = -200;
+   break;
+   case RIGHT_ARROW :
+   camX = 200;
+   break;
+    }
+  }
